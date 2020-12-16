@@ -19,8 +19,21 @@ private:
                                 , {1,   2,   0,   0,   0,   0,   0,   0,   0} // shg
                                 };
 
-    unsigned GetNodesCount(bool (&nodes_passed)[9], unsigned color_idx);
+    /**
+     * @brief Get the Child Nodes Count
+     *
+     * @param array of nodes flags
+     * @param index of parent node to start searching from
+     * @return cout of unique child nodes
+     */
+    unsigned GetChildNodesCount(bool (&nodes_passed)[9], unsigned color_idx);
 
 public:
-    unsigned CountColors(unsigned color_idx);
+    /**
+     * @brief Get the Child Nodes Count
+     *
+     * @param index of parent node to start searching from
+     * @return cout of unique child nodes
+     */
+    unsigned GetChildNodesCount(unsigned color_idx);
 };

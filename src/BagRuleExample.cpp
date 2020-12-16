@@ -1,6 +1,6 @@
 #include "BagRuleExample.h"
 
-unsigned BagRuleExample::GetNodesCount(bool (&nodes_passed)[9], unsigned color_idx)
+unsigned BagRuleExample::GetChildNodesCount(bool (&nodes_passed)[9], unsigned color_idx)
 {
     unsigned sum = 0;
 
@@ -15,19 +15,19 @@ unsigned BagRuleExample::GetNodesCount(bool (&nodes_passed)[9], unsigned color_i
                 ++sum;
             }
 
-            sum += GetNodesCount(nodes_passed, i);
+            sum += GetChildNodesCount(nodes_passed, i);
         }
     }
 
     return sum;
 }
 
-unsigned BagRuleExample::CountColors(unsigned color_idx)
+unsigned BagRuleExample::GetChildNodesCount(unsigned color_idx)
 {
     if (color_idx > 9)
         return 0;
 
     bool nodes_passed[9] = {0};
 
-    return GetNodesCount(nodes_passed, color_idx);
+    return GetChildNodesCount(nodes_passed, color_idx);
 }

@@ -11,13 +11,13 @@ int main(int argc, char const *argv[])
 
     // example
     BagRuleExample bag_rule_example;
-    cout << "Example data Result: " << bag_rule_example.CountColors(8) << endl;
+    cout << "Example data Result: " << bag_rule_example.GetChildNodesCount(8) << endl;
 
     // custom data
     BagColerRule bag_rule;
     bag_rule.Load("bag.data");
 
-    set<shared_ptr<BagColorNode>> childs = bag_rule.GetChilds("shiny gold");
+    set<shared_ptr<BagColorNode>> childs = bag_rule.GetChildNodes("shiny gold");
     cout << "Custom data Result: " << childs.size() << endl;
 
     return 0;
