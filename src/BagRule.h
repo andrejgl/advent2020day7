@@ -35,6 +35,13 @@ public:
      */
     unsigned GetInsideBagCount();
 
+    /**
+     * @brief Get the Unique Parent Nodes
+     *
+     * @param out_nodes
+     */
+    void GetUniqueParentNodes(std::set<BagColorNode *> &out_nodes);
+
     // Getters
     const std::string &name() const { return color_name_; };
     const std::set<BagColorNode *> &parents() const { return parents_; };
@@ -46,14 +53,6 @@ class BagColorRule
 private:
     std::map<std::string, std::shared_ptr<BagColorNode>> bag_colors_dir_;
     std::shared_ptr<BagColorNode> AddNode(const std::string &color_name);
-
-    /**
-     * @brief Get a set of unique parent nodes
-     *
-     * @param outout set
-     * @param Bag color node to search from
-     */
-    void GetParentNodes(std::set<BagColorNode *> &out_nodes, const BagColorNode *node);
 
 public:
     /**

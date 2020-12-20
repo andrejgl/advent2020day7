@@ -7,6 +7,11 @@
 
 using namespace std;
 
+BagColorNode::BagColorNode(const string &name)
+    : color_name_(name)
+{
+}
+
 void BagColorNode::AddChildNode(std::shared_ptr<BagColorNode> child_node, unsigned weight)
 {
     child_node->parents_.insert(this);
@@ -27,9 +32,13 @@ unsigned BagColorNode::GetInsideBagCount()
     return count;
 }
 
-BagColorNode::BagColorNode(const string &name)
-    : color_name_(name)
+void BagColorNode::GetUniqueParentNodes(set<BagColorNode *> &out_nodes)
 {
+    for (auto &i : parents_)
+    {
+        out_nodes.insert(i);
+        i->GetUniqueParentNodes(out_nodes);
+    }
 }
 
 shared_ptr<BagColorNode> BagColorRule::AddNode(const string &color_name)
@@ -98,29 +107,18 @@ bool BagColorRule::Load(const string &filename)
     return true;
 }
 
-void BagColorRule::GetParentNodes(set<BagColorNode *> &out_nodes, const BagColorNode *node)
-{
-    for (auto &i : node->parents())
-    {
-        out_nodes.insert(i);
-        GetParentNodes(out_nodes, i);
-    }
-}
-
 unsigned BagColorRule::GetParentNodesCount(const string &color_name)
 {
     set<BagColorNode *> nodes; // a set of unique values
-    unsigned count = 0;
     auto parent_it = bag_colors_dir_.find(color_name);
 
     if (parent_it == bag_colors_dir_.end())
     {
         cout << "Can not find node for '" << color_name << "'" << endl;
-        // exception
         return 0;
     }
 
-    GetParentNodes(nodes, (*parent_it).second.get());
+    parent_it->second->GetUniqueParentNodes(nodes);
 
     return nodes.size();
 }
