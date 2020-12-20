@@ -13,6 +13,20 @@ void BagColorNode::AddChildNode(std::shared_ptr<BagColorNode> child_node, unsign
     childs_.insert({child_node, weight});
 }
 
+unsigned BagColorNode::GetInsideBagCount()
+{
+    unsigned count = 0;
+    for (auto &i : childs_)
+    {
+        count += i.second;
+
+        if (i.first->childs_.size() > 0)
+            count += i.second * i.first->GetInsideBagCount();
+    }
+
+    return count;
+}
+
 BagColorNode::BagColorNode(const string &name)
     : color_name_(name)
 {
@@ -111,26 +125,11 @@ unsigned BagColorRule::GetParentNodesCount(const string &color_name)
     return nodes.size();
 }
 
-unsigned BagColorRule::GetInsideBagCount(const BagColorNode *node)
-{
-    unsigned count = 0;
-    for (const auto &i : node->childs())
-    {
-        count += i.second;
-        if (i.first->childs().size() > 0)
-        {
-            count += i.second * GetInsideBagCount(i.first.get());
-        }
-    }
-
-    return count;
-}
-
 unsigned BagColorRule::GetInsideBagCount(const std::string &color_name)
 {
     auto bag_it = bag_colors_dir_.find(color_name);
 
-    return GetInsideBagCount(bag_it->second.get());
+    return bag_it->second->GetInsideBagCount();
 }
 
 void BagColorRule::Clear()

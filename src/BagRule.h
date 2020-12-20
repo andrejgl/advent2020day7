@@ -28,6 +28,13 @@ public:
      */
     void AddChildNode(std::shared_ptr<BagColorNode> child_node, unsigned weight);
 
+    /**
+     * @brief Get the Inside Bag Count
+     *
+     * @return unsigned
+     */
+    unsigned GetInsideBagCount();
+
     // Getters
     const std::string &name() const { return color_name_; };
     const std::set<BagColorNode *> &parents() const { return parents_; };
@@ -47,14 +54,6 @@ private:
      * @param Bag color node to search from
      */
     void GetParentNodes(std::set<BagColorNode *> &out_nodes, const BagColorNode *node);
-
-    /**
-     * @brief Get the Inside Bag Count of node
-     *
-     * @param parent_node
-     * @return unsigned
-     */
-    unsigned GetInsideBagCount(const BagColorNode *parent_node);
 
 public:
     /**
